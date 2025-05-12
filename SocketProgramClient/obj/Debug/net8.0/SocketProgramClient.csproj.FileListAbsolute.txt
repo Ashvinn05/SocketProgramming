@@ -12,3 +12,4 @@ C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramClient\obj\Debu
 C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramClient\obj\Debug\net8.0\SocketProgramClient.pdb
 C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramClient\obj\Debug\net8.0\SocketProgramClient.genruntimeconfig.cache
 C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramClient\obj\Debug\net8.0\ref\SocketProgramClient.dll
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramClient\obj\Debug\net8.0\SocketProgramClient.sourcelink.json
