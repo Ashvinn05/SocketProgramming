@@ -48,8 +48,26 @@ namespace SocketProgramClient.Networking
                         }
                         await MessageUtils.SendMessageAsync(stream, message, cancellationToken);
                         Console.WriteLine($"Sent: {message}");
-                        string? response = await MessageUtils.ReadMessageAsync(stream, cancellationToken);
-                        Console.WriteLine($"Received: {response}");
+                        // Read and display all responses until the server stops sending (timeout or disconnect)
+                        while (true)
+                        {
+                            try
+                            {
+                                // Set a short timeout for reading the next message
+                                using var readCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                                readCts.CancelAfter(1500); // 1.5 seconds: must be longer than server's 1s interval
+                                string? response = await MessageUtils.ReadMessageAsync(stream, readCts.Token);
+                                if (string.IsNullOrEmpty(response))
+                                    break;
+                                Console.WriteLine($"Received: {response}");
+                                // Optionally, break if response is "EMPTY"
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                // Timeout: no more messages expected
+                                break;
+                            }
+                        }
                     }
                     break;
                 }

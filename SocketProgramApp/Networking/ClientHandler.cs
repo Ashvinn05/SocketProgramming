@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SocketProgramApp.Utils;
+using SocketProgramApp.BusinessLogic;
 
 namespace SocketProgramApp.Networking
 {
@@ -18,26 +19,27 @@ namespace SocketProgramApp.Networking
                     using NetworkStream stream = client.GetStream();
                     while (!cancellationToken.IsCancellationRequested)
                     {
-                        try
+                        // Read message from client
+                        string? request = await MessageUtils.ReadMessageAsync(stream, cancellationToken);
+                        if (string.IsNullOrWhiteSpace(request) || !InputSanitizer.IsValidFormat(request))
                         {
-                            string? message = await MessageUtils.ReadMessageAsync(stream, cancellationToken);
-                            if (message == null)
-                                break;
-
-                            Console.WriteLine($"Received from client: {message}");
-
-                            string response = $"Received: {message}";
-                            await MessageUtils.SendMessageAsync(stream, response, cancellationToken);
-                            Console.WriteLine($"Sent to client: {response}");
+                            await MessageUtils.SendMessageAsync(stream, "EMPTY", cancellationToken);
+                            continue;
                         }
-                        catch (OperationCanceledException)
+                        request = request.Trim();
+                        int? count = TimeResponseService.GetTimeResponseCount(request);
+                        if (count.HasValue && count.Value > 0)
                         {
-                            break;
+                            for (int i = 0; i < count; i++)
+                            {
+                                string currentTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                                await MessageUtils.SendMessageAsync(stream, currentTime, cancellationToken);
+                                await Task.Delay(1000, cancellationToken);
+                            }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Console.WriteLine($"Error handling client: {ex.Message}");
-                            break;
+                            await MessageUtils.SendMessageAsync(stream, "EMPTY", cancellationToken);
                         }
                     }
                 }
