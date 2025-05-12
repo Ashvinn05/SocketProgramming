@@ -1,0 +1,14 @@
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\bin\Debug\net8.0\SocketProgramApp.exe
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\bin\Debug\net8.0\SocketProgramApp.deps.json
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\bin\Debug\net8.0\SocketProgramApp.runtimeconfig.json
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\bin\Debug\net8.0\SocketProgramApp.dll
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\bin\Debug\net8.0\SocketProgramApp.pdb
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.AssemblyInfoInputs.cache
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.AssemblyInfo.cs
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.csproj.CoreCompileInputs.cache
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.dll
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\refint\SocketProgramApp.dll
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.pdb
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\SocketProgramApp.genruntimeconfig.cache
+C:\Users\ACER\Documents\Workspace\SocketProgramming\SocketProgramApp\obj\Debug\net8.0\ref\SocketProgramApp.dll
