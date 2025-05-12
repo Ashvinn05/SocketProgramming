@@ -9,34 +9,35 @@ namespace SocketProgramClient.Utils
 {
     public static class MessageUtils
     {
-        public static async Task<string?> ReadMessageAsync(NetworkStream stream, CancellationToken cancellationToken)
+        public static async Task<string?> ReadMessageAsync(NetworkStream stream, CancellationToken cancellationToken = default)
         {
-            byte[] lengthBuffer = new byte[4];
-            int bytesRead = await ReadExactAsync(stream, lengthBuffer, 0, 4, cancellationToken).ConfigureAwait(false);
-            if (bytesRead == 0)
-                return null; // Disconnected
-
-            int messageLength = BitConverter.ToInt32(lengthBuffer, 0);
-            if (messageLength <= 0 || messageLength > 1024 * 1024)
-                throw new IOException("Invalid message length received.");
-
-            byte[] messageBuffer = new byte[messageLength];
-            bytesRead = await ReadExactAsync(stream, messageBuffer, 0, messageLength, cancellationToken).ConfigureAwait(false);
-            if (bytesRead == 0)
-                return null; // Disconnected
-
-            return Encoding.UTF8.GetString(messageBuffer, 0, bytesRead);
+            // Read length prefix
+            byte[] lengthPrefix = new byte[4];
+            int read = await stream.ReadAsync(lengthPrefix, 0, 4, cancellationToken);
+            if (read < 4) return null;
+            int messageLength = BitConverter.ToInt32(lengthPrefix, 0);
+            // Read encrypted message
+            byte[] encryptedBytes = new byte[messageLength];
+            int totalRead = 0;
+            while (totalRead < messageLength)
+            {
+                int bytesRead = await stream.ReadAsync(encryptedBytes, totalRead, messageLength - totalRead, cancellationToken);
+                if (bytesRead == 0) return null; // Disconnected
+                totalRead += bytesRead;
+            }
+            // Decrypt
+            return EncryptionUtils.Decrypt(encryptedBytes);
         }
 
-        public static async Task SendMessageAsync(NetworkStream stream, string message, CancellationToken cancellationToken)
+        public static async Task SendMessageAsync(NetworkStream stream, string message, CancellationToken cancellationToken = default)
         {
-            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-            byte[] lengthBytes = BitConverter.GetBytes(messageBytes.Length);
-            byte[] data = new byte[4 + messageBytes.Length];
-            Array.Copy(lengthBytes, 0, data, 0, 4);
-            Array.Copy(messageBytes, 0, data, 4, messageBytes.Length);
-
-            await stream.WriteAsync(data, 0, data.Length, cancellationToken).ConfigureAwait(false);
+            // Encrypt message
+            byte[] encryptedBytes = EncryptionUtils.Encrypt(message);
+            // Send length prefix
+            byte[] lengthPrefix = BitConverter.GetBytes(encryptedBytes.Length);
+            await stream.WriteAsync(lengthPrefix, 0, lengthPrefix.Length, cancellationToken);
+            // Send encrypted message
+            await stream.WriteAsync(encryptedBytes, 0, encryptedBytes.Length, cancellationToken);
         }
 
         private static async Task<int> ReadExactAsync(NetworkStream stream, byte[] buffer, int offset, int count, CancellationToken cancellationToken)
