@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 using SocketProgramApp.Utils;
 using SocketProgramApp.BusinessLogic;
 
+/// <summary>
+/// Handles client connections and processes requests asynchronously.
+/// </summary>
 namespace SocketProgramApp.Networking
 {
+    /// <summary>
+    /// Represents a client handler that implements the IClientHandler interface.
+    /// </summary>
     public class ClientHandler : IClientHandler
     {
+        /// <summary>
+        /// Asynchronously handles the client connection and processes incoming messages.
+        /// </summary>
+        /// <param name="client">The TcpClient representing the client connection.</param>
+        /// <param name="cancellationToken">Cancellation token to signal cancellation of the operation.</param>
         public async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
         {
             using (client)

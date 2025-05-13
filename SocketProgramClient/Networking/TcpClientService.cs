@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 using SocketProgramClient.Utils;
 using SocketProgramClient.Networking;
 
+/// <summary>
+/// Provides methods for connecting to a TCP server and sending/receiving messages.
+/// </summary>
 namespace SocketProgramClient.Networking
 {
+    /// <summary>
+    /// Represents a TCP client service for connecting to a server and handling messaging.
+    /// </summary>
     public class TcpClientService : ITcpClientService
     {
         private readonly string _host;
@@ -16,12 +22,21 @@ namespace SocketProgramClient.Networking
         private const int RetryDelayMs = 2000;
         private const int ConnectionTimeoutMs = 600000;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpClientService"/> class.
+        /// </summary>
+        /// <param name="host">The hostname or IP address of the server.</param>
+        /// <param name="port">The port number on which the server is listening.</param>
         public TcpClientService(string host, int port)
         {
             _host = host;
             _port = port;
         }
 
+        /// <summary>
+        /// Asynchronously runs the TCP client service to connect to the server and handle messaging.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token to signal cancellation of the operation.</param>
         public async Task RunAsync(CancellationToken cancellationToken)
         {
             int attempts = 0;

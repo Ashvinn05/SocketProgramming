@@ -7,18 +7,30 @@ using SocketProgramApp.Utils;
 
 namespace SocketProgramApp.Networking
 {
+    /// <summary>
+    /// Implements the ITcpServer interface for managing TCP connections.
+    /// </summary>
     public class TcpServer : ITcpServer
     {
         private readonly int _port;
         private TcpListener? _server;
         private readonly IClientHandler _clientHandler;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpServer"/> class.
+        /// </summary>
+        /// <param name="port">The port number on which the server will listen.</param>
+        /// <param name="clientHandler">An optional client handler to manage client connections.</param>
         public TcpServer(int port, IClientHandler? clientHandler = null)
         {
             _port = port;
             _clientHandler = clientHandler ?? new ClientHandler();
         }
 
+        /// <summary>
+        /// Starts the TCP server and begins accepting client connections asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken">A token to signal cancellation of the operation.</param>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _server = new TcpListener(IPAddress.Any, _port);
@@ -45,6 +57,9 @@ namespace SocketProgramApp.Networking
             }
         }
 
+        /// <summary>
+        /// Stops the TCP server.
+        /// </summary>
         public void Stop()
         {
             _server?.Stop();

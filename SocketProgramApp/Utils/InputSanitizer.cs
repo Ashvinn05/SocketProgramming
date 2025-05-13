@@ -1,10 +1,20 @@
 using System.Text.RegularExpressions;
 
+/// <summary>
+/// Provides methods for sanitizing input strings to ensure they meet specific format requirements.
+/// </summary>
 namespace SocketProgramApp.Utils
 {
+    /// <summary>
+    /// Provides methods for sanitizing input strings to ensure they meet specific format requirements.
+    /// </summary>
     public static class InputSanitizer
     {
-        // Allows only alphanumerics and a single dash, trims whitespace
+        /// <summary>
+        /// Sanitizes the input string by allowing only alphanumerics and a single dash, and trims whitespace.
+        /// </summary>
+        /// <param name="input">The input string to sanitize.</param>
+        /// <returns>The sanitized string, or null if the input is invalid.</returns>
         public static string? Sanitize(string? input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -19,6 +29,11 @@ namespace SocketProgramApp.Utils
             return input;
         }
 
+        /// <summary>
+        /// Validates the format of the input string to ensure it meets specific criteria.
+        /// </summary>
+        /// <param name="input">The input string to validate.</param>
+        /// <returns>True if the input is valid; otherwise, false.</returns>
         public static bool IsValidFormat(string? input)
         {
             if (string.IsNullOrWhiteSpace(input))
